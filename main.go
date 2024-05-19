@@ -3,26 +3,40 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"playlistsync/main/auth"
 
 	"github.com/rapito/go-spotify/spotify"
 )
 
 func main() {
 	fmt.Println("Hello, World!")
-	fmt.Println("Hello, World!")
 
-	spot := spotify.New(nil,nil)
-	spot.Authorize()
 
-	result, _ := spot.Get("playlists/%s", nil, "5QIZGd9DfVRrcDJJPBISQv")
+}
 
-	var playlistResponse PlaylistResponse
+func startListeningServer(){
 
-	error := json.Unmarshal([]byte(result), &playlistResponse)
-	fmt.Println(error)
+    var redirectUrl = "";
 
-	fmt.Println(string((playlistResponse.AllTracks.TrackWithMetaData[0].Track.Artists[0].Name)))
+    server := &http.Server{Addr: redirectUrl}
+    _ = server.ListenAndServe()
+    
+    }
 
+func getPlaylistFromSpotify() {
+
+    spot := spotify.New("", "")
+    spot.Authorize()
+
+    result, _ := spot.Get("playlists/%s", nil, "5QIZGd9DfVRrcDJJPBISQv")
+
+    var playlistResponse PlaylistResponse
+
+    error := json.Unmarshal([]byte(result), &playlistResponse)
+    fmt.Println(error)
+
+    fmt.Println(string((playlistResponse.AllTracks.TrackWithMetaData[0].Track.Artists[0].Name)))
 }
 
 type PlaylistResponse struct {
