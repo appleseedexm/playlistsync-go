@@ -1,42 +1,93 @@
 package main
 
 import (
+	"crypto/subtle"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"playlistsync/main/auth"
 
 	"github.com/rapito/go-spotify/spotify"
+	"golang.org/x/oauth2"
 )
+
+type OAuthRedirectHandler struct {
+	State        string
+	CodeVerifier string
+	OAuthConfig  *oauth2.Config
+}
 
 func main() {
 	fmt.Println("Hello, World!")
 
+	clientId := ""
+
+	state := auth.Authorize(clientId, "http://localhost:8080")
+
+	oauth := &OAuthRedirectHandler{
+		State:        state,
+		CodeVerifier: "code_verifier",
+		OAuthConfig: &oauth2.Config{
+			ClientID:     clientId,
+			ClientSecret: "",
+			RedirectURL:  "http://localhost:8080",
+			Scopes:       []string{"r_usr", "w_usr"},
+		},
+	}
+
+
+    http.HandleFunc("/", oauth.startListeningServer)
+    log.Fatal(http.ListenAndServe(":8080", nil))
 
 }
 
-func startListeningServer(){
+func (h *OAuthRedirectHandler) startListeningServer(rw http.ResponseWriter, req *http.Request) {
+	query := req.URL.Query()
 
-    var redirectUrl = "";
+	state := query.Get("state")
 
-    server := &http.Server{Addr: redirectUrl}
-    _ = server.ListenAndServe()
-    
-    }
+
+    // todo: implement state
+	if subtle.ConstantTimeCompare([]byte(h.State), []byte(state)) == 0  || true{
+		http.Error(rw, "Invalid state", http.StatusBadRequest)
+		return
+	}
+
+	code := query.Get("code")
+
+	if code == "" {
+		http.Error(rw, "No code", http.StatusBadRequest)
+		return
+	}
+
+	token, err := h.OAuthConfig.Exchange(req.Context(), code, oauth2.SetAuthURLParam("code_verifier", h.CodeVerifier))
+
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println(token)
+
+	//server := &http.Server{Addr: redirectUrl}
+	//_ = server.ListenAndServe()
+
+}
 
 func getPlaylistFromSpotify() {
 
-    spot := spotify.New("", "")
-    spot.Authorize()
+	spot := spotify.New("", "")
+	spot.Authorize()
 
-    result, _ := spot.Get("playlists/%s", nil, "5QIZGd9DfVRrcDJJPBISQv")
+	result, _ := spot.Get("playlists/%s", nil, "5QIZGd9DfVRrcDJJPBISQv")
 
-    var playlistResponse PlaylistResponse
+	var playlistResponse PlaylistResponse
 
-    error := json.Unmarshal([]byte(result), &playlistResponse)
-    fmt.Println(error)
+	error := json.Unmarshal([]byte(result), &playlistResponse)
+	fmt.Println(error)
 
-    fmt.Println(string((playlistResponse.AllTracks.TrackWithMetaData[0].Track.Artists[0].Name)))
+	fmt.Println(string((playlistResponse.AllTracks.TrackWithMetaData[0].Track.Artists[0].Name)))
 }
 
 type PlaylistResponse struct {
