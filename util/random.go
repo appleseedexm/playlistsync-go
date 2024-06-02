@@ -7,7 +7,7 @@ import (
 	"io"
 )
 
-func randomBytesInBase64(count int) string {
+func RandomBytesInBase64(count int) string {
 	buf := make([]byte, count)
 	_, err := io.ReadFull(rand.Reader, buf)
 	if err != nil {
@@ -16,7 +16,7 @@ func randomBytesInBase64(count int) string {
 	return base64.RawURLEncoding.EncodeToString(buf)
 }
 
-func randomBytesInHex(count int) string {
+func RandomBytesInHex(count int) string {
 	buf := make([]byte, count)
 	_, err := io.ReadFull(rand.Reader, buf)
 	if err != nil {

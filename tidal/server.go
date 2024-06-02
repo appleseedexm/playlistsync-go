@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"playlistsync/main/util"
 )
 
 type OAuthRedirectHandler struct {
@@ -18,7 +19,8 @@ type OAuthRedirectHandler struct {
 	authUrl      string
 	redirectUri  string
 }
-func server(){
+
+func Server(){
 
 	clientId := ""
 
@@ -118,14 +120,14 @@ func Authorize(clientId string, authUrl string) (string, string){
 	//scope := "collection.read,collection.write,playlists.read,playlists.write"
     scope := "collection.read"
 
-	code_challenge := randomBytesInBase64(int(32))
+	code_challenge := util.RandomBytesInBase64(int(32))
 	println(code_challenge)
 	s2 := sha256.New()
 	s2.Write([]byte(code_challenge))
 	code_challenge_hashed_base64 := base64.RawURLEncoding.EncodeToString(s2.Sum(nil))
 	println(code_challenge_hashed_base64)
 
-    state := randomBytesInHex(int(24))
+    state := util.RandomBytesInHex(int(24))
 
 	authorizationUrl := fmt.Sprintf("https://login.tidal.com/authorize"+
 		"?response_type=code"+

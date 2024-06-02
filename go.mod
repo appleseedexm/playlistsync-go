@@ -9,4 +9,5 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rapito/go-spotify v0.0.0-20201203225102-8089a3ff3172 // indirect
 	golang.org/x/net v0.22.0 // indirect
+	golang.org/x/oauth2 v0.20.0 // indirect
 )
