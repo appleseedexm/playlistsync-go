@@ -6,9 +6,9 @@ A simple CLI to sync your spotify playlist to tidal.
 
 ## Status
 
-Super alpha, but it works.
+Super alpha, but it works. There's no CLI as of now, everything is hardcoded.
 
-It's mostly a playground fo me to play with go. Because I got stressed about getting playlists over the code is absolute trash.
+It's mostly a playground for me to play with go. Because I got stressed about getting playlists over the code is absolute trash.
 
 ## Requirements
 
