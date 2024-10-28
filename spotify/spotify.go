@@ -2,24 +2,37 @@ package spotify
 
 import (
 	"encoding/json"
-	"fmt"
-
 	"github.com/rapito/go-spotify/spotify"
 )
 
-func getPlaylistFromSpotify() {
+type Song struct {
+	Artist   string
+	SongName string
+}
 
-	spot := spotify.New("", "")
-	spot.Authorize()
+func GetPlaylistFromSpotify() []Song {
 
-	result, _ := spot.Get("playlists/%s", nil, "5QIZGd9DfVRrcDJJPBISQv")
+    clientId := ""
+    clientSecret := ""
+	spot := spotify.New(clientId, clientSecret)
+
+	result, _ := spot.Get("playlists/%s", nil, "5EGiNnE8oWvzVpHnAZVF3O")
 
 	var playlistResponse PlaylistResponse
 
-	error := json.Unmarshal([]byte(result), &playlistResponse)
-	fmt.Println(error)
+	json.Unmarshal([]byte(result), &playlistResponse)
 
-	fmt.Println(string((playlistResponse.AllTracks.TrackWithMetaData[0].Track.Artists[0].Name)))
+
+	var songs []Song
+
+	for _, track := range playlistResponse.AllTracks.TrackWithMetaData {
+		songs = append(songs, Song{
+			Artist:   track.Track.Artists[0].Name,
+			SongName: track.Track.Name,
+		})
+	}
+
+	return songs
 }
 
 type PlaylistResponse struct {
