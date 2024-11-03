@@ -15,6 +15,12 @@ It's mostly a playground for me to play with go. Because I got stressed about ge
 - spotify developer account
 - manually add tidal bearer token from browser
 
+## Usage
+
+- add an .env file (for details see `main.go:load_dotenv`)
+- set the spotify playlist id manually in `spotify/spotify.go:GetPlaylistFromSpotify.go` (not in env due to planned selection)
+- build & run (good luck)
+
 ## Planned
 
 - currently mismatches are not validated and it happens that some wrong songs are added
