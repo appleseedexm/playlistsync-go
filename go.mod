@@ -4,6 +4,7 @@ go 1.22.1
 
 require (
 	github.com/bitly/go-simplejson v0.5.1 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/parnurzeal/gorequest v0.3.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect

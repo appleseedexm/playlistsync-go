@@ -3,6 +3,7 @@ package spotify
 import (
 	"encoding/json"
 	"github.com/rapito/go-spotify/spotify"
+	"playlistsync/main/util"
 )
 
 type Song struct {
@@ -10,10 +11,10 @@ type Song struct {
 	SongName string
 }
 
-func GetPlaylistFromSpotify() []Song {
+func GetPlaylistFromSpotify(envVars util.EnvVars) []Song {
 
-    clientId := ""
-    clientSecret := ""
+	clientId := envVars.SpotifyClientId
+	clientSecret := envVars.SpotifyClientSecret
 	spot := spotify.New(clientId, clientSecret)
 
 	result, _ := spot.Get("playlists/%s", nil, "5EGiNnE8oWvzVpHnAZVF3O")
@@ -21,7 +22,6 @@ func GetPlaylistFromSpotify() []Song {
 	var playlistResponse PlaylistResponse
 
 	json.Unmarshal([]byte(result), &playlistResponse)
-
 
 	var songs []Song
 

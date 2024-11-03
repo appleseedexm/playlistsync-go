@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"playlistsync/main/spotify"
+	"playlistsync/main/util"
 	"strconv"
 	"strings"
 )
@@ -29,13 +30,13 @@ type Song struct {
 	songName string
 }
 
-func Serve(songs []spotify.Song) {
+func Serve(songs []spotify.Song, envVars util.EnvVars) {
 
 	tidal := TidalWebApi{
 		username:    "",
 		password:    "",
 		countryCode: "CH",
-		bearerToken: "Bearer " + "",
+		bearerToken: "Bearer " + envVars.TidalBearerToken,
 	}
 
 	var songIds []string
