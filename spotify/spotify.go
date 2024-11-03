@@ -13,11 +13,12 @@ type Song struct {
 
 func GetPlaylistFromSpotify(envVars util.EnvVars) []Song {
 
+	playlistId := "5EGiNnE8oWvzVpHnAZVF3O"
 	clientId := envVars.SpotifyClientId
 	clientSecret := envVars.SpotifyClientSecret
 	spot := spotify.New(clientId, clientSecret)
 
-	result, _ := spot.Get("playlists/%s", nil, "5EGiNnE8oWvzVpHnAZVF3O")
+	result, _ := spot.Get("playlists/%s", nil, playlistId)
 
 	var playlistResponse PlaylistResponse
 
