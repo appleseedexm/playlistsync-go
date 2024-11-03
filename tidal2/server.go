@@ -30,7 +30,7 @@ type Song struct {
 	songName string
 }
 
-func Serve(songs []spotify.Song, envVars util.EnvVars) {
+func SyncSongs(songs []spotify.Song, envVars util.EnvVars) {
 
 	tidal := TidalWebApi{
 		username:    "",
@@ -51,7 +51,7 @@ func Serve(songs []spotify.Song, envVars util.EnvVars) {
 	fmt.Println("Adding songs to playlist:")
 	fmt.Println(songIds)
 
-	newPlaylistUuid := tidal.createPlatylist("APITESTttfasdf")
+	newPlaylistUuid := tidal.createPlaylist("APITESTttfasdf")
 	etag := tidal.getPlaylist(newPlaylistUuid)
 	tidal.addSongToPlaylist(newPlaylistUuid, songIds, etag)
 
@@ -164,7 +164,7 @@ func (h *TidalWebApi) getPlaylist(playlistId string) string {
 
 }
 
-func (h *TidalWebApi) createPlatylist(name string) string {
+func (h *TidalWebApi) createPlaylist(name string) string {
 
 	type TidalPlaylist struct {
 		Data struct {

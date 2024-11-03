@@ -17,7 +17,7 @@ func main() {
 	fmt.Println(`Adding songs to playlist:`)
 	fmt.Println(spotifySongs)
 
-	tidal2.Serve(spotifySongs, env)
+	tidal2.SyncSongs(spotifySongs, env)
 
 }
 
