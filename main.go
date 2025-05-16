@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
-	"playlistsync/main/spotify"
 	"playlistsync/main/tidal2"
-	"playlistsync/main/util"
 
+	"github.com/appleseedexm/playlistsync-go/main/spotify"
+	"github.com/appleseedexm/playlistsync-go/main/util"
 	"github.com/joho/godotenv"
 )
 

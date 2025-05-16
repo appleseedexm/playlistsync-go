@@ -7,12 +7,12 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"playlistsync/main/spotify"
-	"playlistsync/main/util"
 	"strconv"
 	"strings"
-)
 
+	"github.com/appleseedexm/playlistsync-go/main/spotify"
+	"github.com/appleseedexm/playlistsync-go/main/util"
+)
 
 type TidalWebApi struct {
 	username    string

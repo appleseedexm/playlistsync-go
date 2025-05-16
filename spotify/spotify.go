@@ -2,8 +2,9 @@ package spotify
 
 import (
 	"encoding/json"
-	"github.com/rapito/go-spotify/spotify"
-	"playlistsync/main/util"
+
+	"github.com/appleseedexm/go-spotify/spotify"
+	"github.com/appleseedexm/playlistsync-go/main/util"
 )
 
 type Song struct {
